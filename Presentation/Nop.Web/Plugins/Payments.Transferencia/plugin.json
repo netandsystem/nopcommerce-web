@@ -1,0 +1,16 @@
+﻿{
+  "Group": "Payment methods",
+  "FriendlyName": "Transferencia Bancaria",
+  "SupportedVersions": [
+    "4.50"
+  ],
+  "Author": "Net and System team",
+  "DisplayOrder": 1,
+  "FileName": "NaS.Nop.Plugin.Payments.Transferencia.dll",
+  "Description": "Este plugin permite pagar por Transferencia Bancaria",
+  "LimitedToStores": [],
+  "LimitedToCustomerRoles": [],
+  "DependsOnSystemNames": [],
+  "SystemName": "Payments.Transferencia",
+  "Version": "1.00"
+}

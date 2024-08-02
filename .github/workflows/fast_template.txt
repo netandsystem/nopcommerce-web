@@ -1,0 +1,48 @@
+# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+
+name: Build and deploy ASP.Net Core app to Azure Web App - ferreprincipal
+
+#UNCOMMENT THIS
+
+# on:
+#   push:
+#     branches:
+#       - artifact-test
+#   workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: 'staging-2' # CAMBIAR
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '6.0.x'
+          include-prerelease: true
+
+      - name: Build with dotnet
+        run: dotnet build --configuration Release
+
+      - name: dotnet publish
+        run: dotnet publish Presentation/Nop.Web/Nop.Web.csproj -c Release -o ${{env.DOTNET_ROOT}}/myapp
+
+#OJO AQUI
+      - name: Deploy to Azure Web App
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v2
+        with:
+          # CAMBIAR 
+          app-name: 'ferreprincipal'
+          # CAMBIAR 
+          slot-name: 'staging-2'
+          #CAMBIAR 
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_AD14C9A239CE421B8F23E3FB1C9950E8 }}
+
+          package: ${{env.DOTNET_ROOT}}/myapp

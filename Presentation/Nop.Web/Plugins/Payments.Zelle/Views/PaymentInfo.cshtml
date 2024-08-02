@@ -1,0 +1,16 @@
+﻿@{
+    Layout = "";
+}
+@model NaS.Nop.Plugin.Payments.Zelle.Models.PaymentInfoModel
+<table width="100%" cellspacing="2" cellpadding="1" border="0">
+    
+    <tr>
+        <td>
+            <label asp-for="OperationNumber">N° de operacion de Zelle:</label>
+        </td>
+        <td>
+            <nop-editor asp-for="OperationNumber" style="width:165px;" autocomplete="off" maxlength="22" />
+            <span asp-validation-for="OperationNumber"></span>
+        </td>
+    </tr>
+</table>
