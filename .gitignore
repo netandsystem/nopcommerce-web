@@ -193,6 +193,7 @@ Presentation/Nop.Web/wwwroot/images/thumbs/*
 !Presentation/Nop.Web/wwwroot/images/thumbs/placeholder.txt
 Presentation/Nop.Web/wwwroot/images/uploaded/*
 !Presentation/Nop.Web/wwwroot/images/uploaded/placeholder.txt
+!Presentation/Nop.Web/wwwroot/images/siclab_images/placeholder.txt
 Presentation/Nop.Web/wwwroot/files/exportimport/*
 !Presentation/Nop.Web/wwwroot/files/exportimport/Index.htm
 Presentation/Nop.Web/wwwroot/lib_npm/cldr-data/main/*
