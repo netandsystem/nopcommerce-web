@@ -26,14 +26,15 @@ public class CustomerPost : BaseDto
     [JsonProperty("password", Required = Required.Always)]
     public string Password { get; set; } = string.Empty;
 
+    [JsonProperty("email", Required = Required.Always)]
+    public string Email { get; set; } = string.Empty;
+
     /// <summary>
     /// get or set the custom attributes
     /// </summary>
     //[JsonProperty("custom_customer_attributes")]
     //public string CustomCustomerAttributes { get; set; }
 
-    [JsonProperty("identity_card", Required = Required.Always)]
-    public string? IdentityCard { get; set; } = null;
 
     /// <summary>
     /// get or set the custom attributes

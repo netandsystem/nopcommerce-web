@@ -335,20 +335,25 @@ public class CustomersController : BaseSyncController<CustomerDto>
         var store = await _storeContext.GetCurrentStoreAsync();
         customer.RegisteredInStoreId = store.Id;
 
-        var CustomCustomerAttributes = new
-        {
-            Cedula = model.IdentityCard
-        };
+        //  ============================ Intento de cedula ============================
 
-        string jsonAttributes = JsonSerializer.Serialize(CustomCustomerAttributes);
+        //var CustomCustomerAttributes = new
+        //{
+        //    Cedula = model.IdentityCard
+        //};
+
+        //string jsonAttributes = JsonSerializer.Serialize(CustomCustomerAttributes);
 
         //custom customer attributes
-        var customerAttributesXml = await ParseCustomCustomerAttributesAsync(jsonAttributes);
-        var customerAttributeWarnings = await _customerAttributeParser.GetAttributeWarningsAsync(customerAttributesXml);
-        foreach (var error in customerAttributeWarnings)
-        {
-            ModelState.AddModelError("", error);
-        }
+        //var customerAttributesXml = await ParseCustomCustomerAttributesAsync(jsonAttributes);
+        //var customerAttributeWarnings = await _customerAttributeParser.GetAttributeWarningsAsync(customerAttributesXml);
+        //foreach (var error in customerAttributeWarnings)
+        //{
+        //    ModelState.AddModelError("", error);
+        //}
+
+        //  ============================ Intento de cedula ============================
+
 
         ////validate CAPTCHA
         //if (_captchaSettings.Enabled && _captchaSettings.ShowOnRegistrationPage && !captchaValid)
@@ -370,18 +375,20 @@ public class CustomersController : BaseSyncController<CustomerDto>
             customer.IsSystemAccount = false;
 
             var customerUserName = model.Username?.Trim();
-            //var customerEmail = model.Email?.Trim();
+            var customerEmail = model.Email.Trim();
 
             var isApproved = _customerSettings.UserRegistrationType == UserRegistrationType.Standard;
 
             var registrationRequest = new CustomerRegistrationRequest(
-                customer,
-                customerUserName,
-                customerUserName,
-                model.Password,
-                _customerSettings.DefaultPasswordFormat,
-                store.Id,
-                isApproved);
+                customer: customer,
+                email: customerEmail,
+                username: customerUserName,
+                password: model.Password,
+                passwordFormat: _customerSettings.DefaultPasswordFormat,
+                storeId: store.Id,
+                isApproved: isApproved
+            );
+
 
             var registrationResult = await _customerRegistrationService.RegisterCustomerAsync(registrationRequest);
 
@@ -421,9 +428,14 @@ public class CustomersController : BaseSyncController<CustomerDto>
                     }
                 }
 
+                //  ============================ Intento de cedula ============================
 
-                //save customer attributes
-                await _genericAttributeService.SaveAttributeAsync(customer, NopCustomerDefaults.CustomCustomerAttributes, customerAttributesXml);
+
+                ////save customer attributes
+                //await _genericAttributeService.SaveAttributeAsync(customer, NopCustomerDefaults.CustomCustomerAttributes, customerAttributesXml);
+
+                //  ============================ Intento de cedula ============================
+
 
                 //notifications
                 if (_customerSettings.NotifyNewCustomerRegistration)
