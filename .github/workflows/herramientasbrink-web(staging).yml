@@ -40,6 +40,6 @@ jobs:
                   # CAMBIAR
                   slot-name: 'staging'
                   #CAMBIAR
-                  publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_686234A14F0345A5BDDA3893D59588D9 }}
+                  publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_0470E0B0DD1F45BB83FA50254DB7635A }}
 
                   package: ${{env.DOTNET_ROOT}}/myapp
