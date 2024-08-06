@@ -1,8 +1,6 @@
 ﻿using FluentMigrator;
 using Nop.Core.Domain.Orders;
-using Nop.Core.Domain.ScheduleTasks;
 using Nop.Data.Mapping;
-using System.Linq;
 
 // #region NaS Code
 
@@ -44,14 +42,14 @@ public class Invoice20240724 : AutoReversingMigration
             .WithDefaultValue(0);
         }
 
-        columnName = NameCompatibilityManager.GetColumnName(typeClass, nameof(Invoice.DaysNegotiated));
-        if (!Schema.Table(tableName).Column(columnName).Exists())
-        {
-            Create.Column(columnName)
-            .OnTable(tableName)
-            .AsInt32()
-            .WithDefaultValue(0);
-        }
+        // columnName = NameCompatibilityManager.GetColumnName(typeClass, nameof(Invoice.DaysNegotiated));
+        // if (!Schema.Table(tableName).Column(columnName).Exists())
+        // {
+        //     Create.Column(columnName)
+        //     .OnTable(tableName)
+        //     .AsInt32()
+        //     .WithDefaultValue(0);
+        // }
 
         columnName = NameCompatibilityManager.GetColumnName(typeClass, nameof(Invoice.DiscountNumber));
         if (!Schema.Table(tableName).Column(columnName).Exists())
