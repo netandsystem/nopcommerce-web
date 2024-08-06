@@ -28,15 +28,31 @@ public class Invoice : BaseSyncEntity2
     public decimal TaxAmount { get; set; }
     public decimal ShippingAmount { get; set; }
     public decimal TaxExemptAmount { get; set; }
-    public int DaysNegotiated { get; set; }
     public decimal DiscountNumber { get; set; }
     public string? DiscountCode { get; set; }
+
     /// <summary>
     /// Fecha de cobro
     /// </summary>
     public DateTime? DueDateUtc { get; set; }
+
     /// <summary>
     /// Base imponible
     /// </summary>
     public decimal TaxBase { get; set; }
+
+    /// <summary>
+    /// Tasa de cambio
+    /// </summary>
+    public decimal ExchangeRate { get; set; }
+
+    /// <summary>
+    /// Días de negociación
+    /// </summary>
+    public int? DaysNegotiated { get => (DueDateUtc - CreatedOnUtc)?.Days; }
+
+    /// <summary>
+    /// Días de vencido
+    /// </summary>
+    public int? DaysPastDue { get => (DateTime.UtcNow - DueDateUtc)?.Days; }
 }

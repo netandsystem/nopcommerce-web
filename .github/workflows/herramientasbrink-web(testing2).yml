@@ -40,6 +40,6 @@ jobs:
                   # CAMBIAR
                   slot-name: 'testing2'
                   #CAMBIAR
-                  publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_E097F0B048684F4883673FD05A1AD1E1 }}
+                  publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_554AF0DC66A743DB91769C0927F6A66A }}
 
                   package: ${{env.DOTNET_ROOT}}/myapp
