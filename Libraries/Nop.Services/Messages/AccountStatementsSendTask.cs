@@ -209,14 +209,14 @@ public partial class AccountStatementsSendTask : IScheduleTask
                                     ),  //Tipp
                                     new (x.ExtId ?? "", cellStyles),  //Nro Doc
                                     new (FormatDate(x.CreatedOnUtc), cellStyles), //Emisión
-                                    new (x.DaysNegotiated?.ToString() ?? "", cellStyles),    //Días N.
+                                    new (x.GetDaysNegotiated()?.ToString() ?? "", cellStyles),    //Días N.
                                     new (x.DiscountCode ?? "", cellStyles), //Descto. Neg
                                     new (FormatDate(x.DueDateUtc), cellStyles),   //Cobro
                                     new (
-                                            x.DaysPastDue?.ToString() ?? "",
+                                            x.GetDaysPastDue()?.ToString() ?? "",
                                             cellStyles +
                                             (
-                                                x.DaysPastDue > 20
+                                                x.GetDaysPastDue() > 20
                                                 ? "background-color: #ffa1a1; font-weight: bold;"
                                                 : ""
                                             )
