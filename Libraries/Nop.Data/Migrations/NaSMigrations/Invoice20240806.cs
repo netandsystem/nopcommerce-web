@@ -24,7 +24,7 @@ public class Invoice20240806 : Migration
             .WithDefaultValue(1);
         }
 
-        columnName = NameCompatibilityManager.GetColumnName(typeClass, nameof(Invoice.DaysNegotiated));
+        columnName = NameCompatibilityManager.GetColumnName(typeClass, "DaysNegotiated");
         if (Schema.Table(tableName).Column(columnName).Exists())
         {
             //Drop the column

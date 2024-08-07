@@ -49,10 +49,10 @@ public class Invoice : BaseSyncEntity2
     /// <summary>
     /// Días de negociación
     /// </summary>
-    public int? DaysNegotiated { get => (DueDateUtc - CreatedOnUtc)?.Days; }
+    public int? GetDaysNegotiated() { return (DueDateUtc - CreatedOnUtc)?.Days; }
 
     /// <summary>
     /// Días de vencido
     /// </summary>
-    public int? DaysPastDue { get => (DateTime.UtcNow - DueDateUtc)?.Days; }
+    public int? GetDaysPastDue() { return (DateTime.UtcNow - DueDateUtc)?.Days; }
 }
