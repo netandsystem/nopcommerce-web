@@ -45,14 +45,4 @@ public class Invoice : BaseSyncEntity2
     /// Tasa de cambio
     /// </summary>
     public decimal ExchangeRate { get; set; }
-
-    /// <summary>
-    /// Días de negociación
-    /// </summary>
-    public int? GetDaysNegotiated() { return (DueDateUtc - CreatedOnUtc)?.Days; }
-
-    /// <summary>
-    /// Días de vencido
-    /// </summary>
-    public int? GetDaysPastDue() { return (DateTime.UtcNow - DueDateUtc)?.Days; }
 }
