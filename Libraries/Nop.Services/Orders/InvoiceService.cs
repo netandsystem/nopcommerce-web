@@ -70,19 +70,19 @@ public class InvoiceService : IInvoiceService
     public virtual IQueryable<Invoice> GetOverdueInvoicesQuery()
     {
         /*
-         * Una factura vencida es aquella que tiene un balance > 0 y la fecha de cobro es menor a la fecha actual
+         * Una factura vencida es aquella que tiene un balance > 0
          *         */
 
         return from i in _repository.Table
-               where i.Balance > 0 && i.DueDateUtc.HasValue && i.DueDateUtc < DateTime.Now
-               orderby i.DueDateUtc ascending
+               where i.Balance > 0
+               //orderby i.DueDateUtc ascending
                select i;
     }
-
 
     public virtual async Task<List<CustomerWithInvoiceList>> GetOverdueInvoicesWithCustomersAsync()
     {
         var invoices = await GetOverdueInvoicesQuery().ToListAsync();
+        invoices = invoices.OrderBy(i => i.DueDateUtc).ToList();
         var customers = await GetCustomerWithAttributesQuery(invoices.Select(i => i.CustomerId).ToList()).ToListAsync();
 
         var query = from c in customers
