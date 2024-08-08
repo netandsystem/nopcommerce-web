@@ -110,6 +110,11 @@ public partial class AccountStatementsSendTask : IScheduleTask
         return date?.AddHours(-4).ToString("dd/MM/yyyy") ?? "";
     }
 
+    private DateTime? LocalDateFromUtc(DateTime? date)
+    {
+        return date?.AddHours(-4);
+    }
+
     private string FormatDecimal(decimal value)
     {
         return value.ToString("N2");
@@ -164,19 +169,19 @@ public partial class AccountStatementsSendTask : IScheduleTask
                     {
                         Key = "RazonSocial",
                         Label = "Razón Social",
-                        StringValue = customer.Attributes.FirstOrDefault(x => x.Key == "Company")?.Value,
+                        StringValue = customer.Attributes.FirstOrDefault(x => x.Key == "Company")?.Value ?? "",
                     },
                     new ReportData
                     {
                         Key = "Email",
                         Label = "Email",
-                        StringValue = customer.Customer.Email,
+                        StringValue = customer.Customer.Email ?? "",
                     },
                     new ReportData
                     {
                         Key = "Telefonos",
                         Label = "Teléfonos",
-                        StringValue = customer.Attributes.FirstOrDefault(x => x.Key == "Phone")?.Value,
+                        StringValue = customer.Attributes.FirstOrDefault(x => x.Key == "Phone")?.Value ?? "",
                     },
                     new ReportData
                     {
@@ -200,38 +205,44 @@ public partial class AccountStatementsSendTask : IScheduleTask
                                 new("Saldo", headerStyles + "background-color: #c4c4c4;"),
                             },
 
-                            Rows = customer.InvoiceList.Select(x => new StyledRow
+                            Rows = customer.InvoiceList.Select(x =>
                             {
-                                Cells = {
-                                    new (
-                                        x.DocumentType == InvoiceType.DeliveryNote ? "NE" : "FAC",
-                                        cellStyles
-                                    ),  //Tipp
-                                    new (x.ExtId ?? "", cellStyles),  //Nro Doc
-                                    new (FormatDate(x.CreatedOnUtc), cellStyles), //Emisión
-                                    new (x.GetDaysNegotiated()?.ToString() ?? "", cellStyles),    //Días N.
-                                    new (x.DiscountCode ?? "", cellStyles), //Descto. Neg
-                                    new (FormatDate(x.DueDateUtc), cellStyles),   //Cobro
-                                    new (
-                                            x.GetDaysPastDue()?.ToString() ?? "",
-                                            cellStyles +
-                                            (
-                                                x.GetDaysPastDue() > 20
-                                                ? "background-color: #ffa1a1; font-weight: bold;"
-                                                : ""
-                                            )
-                                    ),    //Días V.
-                                    new (FormatDecimal(x.TaxBase), cellStyles),   //Base Imp.
-                                    new (FormatDecimal(x.TaxExemptAmount), cellStyles),   //Exento
-                                    new (FormatDecimal(x.ShippingAmount), cellStyles),    //Flete
-                                    new (FormatDecimal(x.TaxAmount), cellStyles), //IVA
-                                    new (
-                                        FormatDecimal(x.Balance),
-                                        cellStyles + "background-color: #c4c4c4;"
-                                    ),   //Saldo
-                                },
+                                var daysNegotiated = (LocalDateFromUtc(x.DueDateUtc)?.Date - LocalDateFromUtc(x.CreatedOnUtc)?.Date)?.Days;
+                                var daysPastDue = (LocalDateFromUtc(DateTime.UtcNow)?.Date - LocalDateFromUtc(x.DueDateUtc)?.Date)?.Days;
 
-                                Style = rowStyles
+                                return new StyledRow
+                                {
+                                    Cells = {
+                                        new (
+                                            x.DocumentType == InvoiceType.DeliveryNote ? "NE" : "FAC",
+                                            cellStyles
+                                        ),  //Tipp
+                                        new (x.ExtId ?? "", cellStyles),  //Nro Doc
+                                        new (FormatDate(x.CreatedOnUtc), cellStyles), //Emisión
+                                        new (daysNegotiated?.ToString() ?? "", cellStyles),    //Días N.
+                                        new (x.DiscountCode ?? "", cellStyles), //Descto. Neg
+                                        new (FormatDate(x.DueDateUtc), cellStyles),   //Cobro
+                                        new (
+                                                daysPastDue?.ToString() ?? "",
+                                                cellStyles +
+                                                (
+                                                    daysPastDue > 20
+                                                    ? "background-color: #ffa1a1; font-weight: bold;"
+                                                    : ""
+                                                )
+                                        ),    //Días V.
+                                        new (FormatDecimal(x.TaxBase), cellStyles),   //Base Imp.
+                                        new (FormatDecimal(x.TaxExemptAmount), cellStyles),   //Exento
+                                        new (FormatDecimal(x.ShippingAmount), cellStyles),    //Flete
+                                        new (FormatDecimal(x.TaxAmount), cellStyles), //IVA
+                                        new (
+                                            FormatDecimal(x.Balance),
+                                            cellStyles + "background-color: #c4c4c4;"
+                                        ),   //Saldo
+                                    },
+
+                                    Style = rowStyles
+                                };
                             }).ToList(),
 
                             TableStyle = tableStyles,
