@@ -1644,7 +1644,7 @@ public partial class MessageTokenProvider : IMessageTokenProvider
             }
             else
             {
-                throw new NopException("Invalid report data: No data");
+                throw new NopException($"Invalid report data: No data; Key: {item.Key}");
             }
         }
 
