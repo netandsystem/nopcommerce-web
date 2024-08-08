@@ -52,25 +52,29 @@ public class InvoiceApiService : BaseSyncService<InvoiceDto>, IInvoiceApiService
     {
 
 
-        async Task<List<InvoiceDto>> GetSellerItemsAsync()
-        {
-            var query = from invoice in _invoiceRepository.Table
-                        join customer in _customerRepository.Table
-                            on invoice.CustomerId equals customer.Id
-                        join attribute in _genericAttributeRepository.Table
-                            on customer.Id equals attribute.EntityId
-                            into attributesList
-                        where invoice.SellerId == sellerId
-                        select invoice.ToDto(customer.SystemName, GetCustomerName(attributesList.ToList()));
+        //async Task<List<InvoiceDto>> GetSellerItemsAsync()
+        //{
+        //    var query = from invoice in _invoiceRepository.Table
+        //                join customer in _customerRepository.Table
+        //                    on invoice.CustomerId equals customer.Id
+        //                join attribute in _genericAttributeRepository.Table
+        //                    on customer.Id equals attribute.EntityId
+        //                    into attributesList
+        //                where invoice.SellerId == sellerId
+        //                select invoice.ToDto(customer.SystemName, GetCustomerName(attributesList.ToList()));
 
-            return await query.ToListAsync();
-        }
+        //    return await query.ToListAsync();
+        //}
 
-        return await GetLastestUpdatedItems3Async(
-            idsInDb,
-            lastUpdateTs,
-            GetSellerItemsAsync
-         );
+        //return await GetLastestUpdatedItems3Async(
+        //    idsInDb,
+        //    lastUpdateTs,
+        //    GetSellerItemsAsync
+        // );
+
+        BaseSyncResponse res = new(new());
+
+        return await Task.FromResult(res);
     }
 
     public override List<List<object?>> GetItemsCompressed3(IList<InvoiceDto> items)
@@ -120,28 +124,32 @@ public class InvoiceApiService : BaseSyncService<InvoiceDto>, IInvoiceApiService
  bool useIdsInDb, IList<int>? idsInDb, long? lastUpdateTs, int sellerId, int storeId, int compressionVersion = 0
 )
     {
-        async Task<List<InvoiceDto>> GetSellerItemsAsync()
-        {
-            var query = from invoice in _invoiceRepository.Table
-                        join customer in _customerRepository.Table
-                            on invoice.CustomerId equals customer.Id
-                        join attribute in _genericAttributeRepository.Table
-                            on customer.Id equals attribute.EntityId
-                            into attributesList
-                        where invoice.SellerId == sellerId
-                        select invoice.ToDto(customer.SystemName, GetCustomerName(attributesList.ToList()));
+        //async Task<List<InvoiceDto>> GetSellerItemsAsync()
+        //{
+        //    var query = from invoice in _invoiceRepository.Table
+        //                join customer in _customerRepository.Table
+        //                    on invoice.CustomerId equals customer.Id
+        //                join attribute in _genericAttributeRepository.Table
+        //                    on customer.Id equals attribute.EntityId
+        //                    into attributesList
+        //                where invoice.SellerId == sellerId
+        //                select invoice.ToDto(customer.SystemName, GetCustomerName(attributesList.ToList()));
 
-            return await query.ToListAsync();
-        }
+        //    return await query.ToListAsync();
+        //}
 
-        return await InnerGetLastestUpdatedItems4Async(
-            useIdsInDb,
-            idsInDb,
-            lastUpdateTs,
-            GetSellerItemsAsync,
-            compressionVersion,
-            new() { GetItemsCompressed3 }
-         );
+        //return await InnerGetLastestUpdatedItems4Async(
+        //    useIdsInDb,
+        //    idsInDb,
+        //    lastUpdateTs,
+        //    GetSellerItemsAsync,
+        //    compressionVersion,
+        //    new() { GetItemsCompressed3 }
+        // );
+
+        BaseSyncResponse res = new(new());
+
+        return await Task.FromResult(res);
     }
 
 
