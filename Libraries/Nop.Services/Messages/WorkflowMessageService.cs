@@ -3015,8 +3015,11 @@ namespace Nop.Services.Messages
                 string? fileName = null;
                 string? filePath = null;
 
-                var bodyReplaced = _tokenizer.Replace(messageTemplate.Body, tokens, true);
-                var subjectReplaced = _tokenizer.Replace(messageTemplate.Subject, tokens, false);
+                //var bodyReplaced = _tokenizer.Replace(messageTemplate.Body, tokens, true);
+                //var subjectReplaced = _tokenizer.Replace(messageTemplate.Subject, tokens, false);
+
+                var bodyReplaced = messageTemplate.Body;
+                var subjectReplaced = messageTemplate.Subject;
 
                 if (item.SendPdf)
                 {
